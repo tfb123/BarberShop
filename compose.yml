@@ -1,0 +1,114 @@
+version: "3.8"
+
+services:
+  caddy:
+    image: caddy
+    container_name: caddy
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    ports:
+      - "80:80"
+    networks:
+      - net1
+      - net2
+
+  vhost1:
+    container_name: vhost1
+    restart: unless-stopped
+    build:
+      context: ./vhost1
+      dockerfile: Dockerfile
+    image: php:apache
+    volumes:
+      - ./svetainek:/var/www/html
+    networks:
+      - net1
+      - net3
+
+  vhost2:
+    container_name: vhost2
+    restart: unless-stopped
+    build:
+      context: ./vhost2
+      dockerfile: Dockerfile
+    image: php:apache
+    volumes:
+      - ./svetainek:/var/www/html
+    networks:
+      - net1
+      - net2
+      - net3
+
+  db:
+    image: mysql:latest
+    container_name: mysql_db
+    expose:
+      - 3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    networks:
+      - net1
+      - net2
+      - net3
+    volumes:
+      - "./db:/docker-entrypoint-initdb.d"
+      - backupd:/backup/latest.mydb.sql.gz:/docker-entrypoint-initdb.d/database.sql.gz
+
+  mysql-cron-backup:
+    image: fradelg/mysql-cron-backup
+    depends_on:
+      - db
+    volumes:
+      - backupd:/backup:/backup
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=user
+      - MYSQL_PASS=password
+      - MAX_BACKUPS=5
+      - INIT_BACKUP=1
+      # Every day at 03:00
+      - CRON_TIME=*/5 * * * * 
+      # Make it small
+      - GZIP_LEVEL=9
+    restart: unless-stopped
+    networks:
+      - net1
+      - net2
+      - net3
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadminDB
+    ports:
+      - "8001:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+    networks:
+      - net1
+      - net2
+
+  startup:
+    container_name: startup
+    command: sleep infinity
+    build:
+      context: ./startup
+      dockerfile: Dockerfile
+    volumes:
+      - ./startup:/opt
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - net1
+      - net2
+
+networks:
+  net1:
+  net2:
+  net3:
+
+volumes:
+  backupd:

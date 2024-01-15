@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Appointment Scheduler</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <button id="loginButton">Login</button>
+
+    <h1>Book Your Appointment</h1>
+    <label for="appointmentDate">Select a Date:</label>
+    <input type="date" id="appointmentDate" name="appointmentDate">
+
+    <div id="timeSlots" class="time-slots-container">
+        <!-- Leave script.js to deal with this div :cool: -->
+    </div>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Book Appointment</h3>
+            <form id="bookingForm">
+                <input type="text" id="name" name="name" placeholder="Name" required>
+                <input type="tel" id="phone" name="phone" placeholder="Phone" required>
+                <input type="hidden" id="appointmentTime" name="appointmentTime">
+                <button type="submit">Make reservation</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfirmationModal()">&times;</span>
+            <h3>Appointment Confirmation</h3>
+            <p id="confirmationMessage"></p>
+            <button onclick="closeConfirmationModal()">Close</button>
+        </div>
+    </div>
+</body>
+
+</html>

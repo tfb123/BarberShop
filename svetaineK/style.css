@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+#loginButton {
+    position: fixed; /* Fixed position */
+    top: 20px; /* 20px from the top */
+    right: 20px; /* 20px from the right */
+    padding: 10px 15px;
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#loginButton:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+h1 {
+    color: #333;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input[type=date], input[type=text], input[type=tel] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.time-slots-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    max-width: 660px; /* Adjust the max-width as needed */
+    margin: 20px auto;
+}
+
+.time-slot {
+    background-color: #4CAF50; /* Green for available slots */
+    color: white;
+    border: 1px solid #ddd;
+    padding: 15px 20px; /* Increased padding for larger buttons */
+    margin: 5px;
+    cursor: pointer;
+    flex-basis: calc(33.333% - 10px); /* Three slots per row */
+    text-align: center;
+    min-width: 100px; /* Minimum width for better appearance */
+    box-sizing: border-box;
+}
+
+.time-slot.booked {
+    background-color: #f44336; /* Red for booked slots */
+    cursor: not-allowed;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 5px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
